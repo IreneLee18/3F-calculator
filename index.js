@@ -114,6 +114,9 @@ const app = Vue.createApp({
         console.log("不能重複點＝");
         return;
       } else {
+        if (this.currentNum === "") {
+          return;
+        }
         this.calculatorText = "";
         switch (this.operator) {
           case "+":
