@@ -1,0 +1,112 @@
+body {
+  background-color: $light-gray;
+}
+
+
+button {
+  background: none;
+  color: $white;
+  font-size: 24px;
+  border: none;
+  cursor: pointer;
+
+  &:hover {
+    background-color: lighten($dark-blue, 10%) !important;
+  }
+}
+
+
+.calculator {
+  @include size(350px, 525px);
+  border-radius: 20px;
+  margin: 0 auto;
+  background-color: $blue;
+  box-shadow: 0px 20px 40px $dark-gray;
+  overflow: hidden;
+
+  &-screen {
+    @include size(100%, 109px);
+    background-color: $dark-blue;
+  }
+
+  &-text {
+    height: 20px;
+    @include flex-end;
+    font-size: 16px;
+    color: $light-blue;
+    padding-top: 16px;
+    padding-right: 16px;
+  }
+
+  &-result {
+    height: 72px;
+    @include flex-end-center;
+    color: $white;
+    padding-right: 16px;
+
+  }
+
+
+  &-btn {
+    @include size(100%, 416px);
+    @include flex-wrap;
+    padding-top: 24px;
+
+    .numbers {
+      width: 75%;
+      @include flex-wrap;
+      align-content: start;
+      justify-content: space-around;
+
+      .num {
+        @include size(72px, 64px);
+        @include flex-center;
+        margin-bottom: 16px;
+        border-radius: 20px;
+      }
+    }
+
+    .operators-side {
+      width: 25%;
+
+      .opeartor {
+        @include size(72px, 64px);
+        @include flex-center;
+        background-color: $dark-blue;
+        border-radius: 20px;
+        margin-bottom: 16px;
+      }
+    }
+
+    .operators-bottom {
+      width: 100%;
+      display: flex;
+      justify-content: space-around;
+
+      button {
+        color: $light-blue;
+
+        &:first-child,
+        &:nth-child(2) {
+          @include size(72px, 64px);
+          border-radius: 20px;
+        }
+
+        &:last-child {
+          @include size(155px, 64px);
+          text-align: right;
+          background: linear-gradient(-45deg, $purple, $light-blue);
+          border-radius: 20px;
+          padding-right: 28px;
+          margin-bottom: 32px;
+
+          &:hover {
+            background: linear-gradient(45deg, $purple, $light-blue);
+            color: $purple;
+
+          }
+        }
+      }
+    }
+  }
+}
