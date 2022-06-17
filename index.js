@@ -110,7 +110,7 @@ const app = Vue.createApp({
     },
     // 取出總數
     equal() {
-      if (this.calculatorText === "") {
+      if (this.calculatorText === ""||this.perNum==='') {
         console.log("不能重複點＝");
         return;
       } else {
@@ -121,17 +121,17 @@ const app = Vue.createApp({
         switch (this.operator) {
           case "+":
             this.currentNum =
-              parseFloat(this.perNum) + parseFloat(this.currentNum);
+              (parseFloat(this.perNum) + parseFloat(this.currentNum)).toFixed(10).replace(/\.0+$|0+$/, '');
             this.calculatorResult = this.currentNum;
             break;
           case "-":
             this.currentNum =
-              parseFloat(this.perNum) - parseFloat(this.currentNum);
+              (parseFloat(this.perNum) - parseFloat(this.currentNum)).toFixed(10).replace(/\.0+$|0+$/, '');
             this.calculatorResult = this.currentNum;
             break;
           case "×":
             this.currentNum =
-              parseFloat(this.perNum) * parseFloat(this.currentNum);
+              (parseFloat(this.perNum) * parseFloat(this.currentNum)).toFixed(10).replace(/\.0+$|0+$/, '');
             this.calculatorResult = this.currentNum;
             break;
           case "÷":
@@ -141,7 +141,7 @@ const app = Vue.createApp({
               this.currentNum = "NaN";
             } else {
               this.currentNum =
-                parseFloat(this.perNum) / parseFloat(this.currentNum);
+              (parseFloat(this.perNum) / parseFloat(this.currentNum)).toFixed(10).replace(/\.0+$|0+$/, '');
             }
             this.calculatorResult = this.currentNum;
             break;
@@ -211,15 +211,15 @@ const app = Vue.createApp({
     text() {
       const currency = /\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g;
       if (this.perNum === "" && this.currentNum === "") {
-        this.calculatorText = "";
+        return this.calculatorText = "";
       } else if (this.perNum !== "") {
-        this.calculatorText = `${this.perNum
+        return this.calculatorText = `${this.perNum
           .toString()
           .replace(currency, ",")} ${this.operator} ${this.currentNum
           .toString()
           .replace(currency, ",")}`;
       } else {
-        this.calculatorText = `${this.calculatorResult
+        return this.calculatorText = `${this.calculatorResult
           .toString()
           .replace(currency, ",")}`;
       }
