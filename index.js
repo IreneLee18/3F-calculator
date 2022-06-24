@@ -1,7 +1,4 @@
 const app = Vue.createApp({
-  created() {
-    console.log(this.currentNum.length);
-  },
   data() {
     return {
       size: 56,
@@ -54,6 +51,7 @@ const app = Vue.createApp({
           this.calculatorResult = this.currentNum;
           break;
       }
+      this.focus();
     },
     // 選擇0
     selectZero(number) {
@@ -63,6 +61,7 @@ const app = Vue.createApp({
         this.currentNum += number;
         this.calculatorResult = this.currentNum;
       }
+      this.focus();
     },
     // 選擇00
     selectDoubleZero(number) {
@@ -75,6 +74,7 @@ const app = Vue.createApp({
         this.currentNum += number;
         this.calculatorResult = this.currentNum;
       }
+      this.focus();
     },
     // 選擇小數點
     selectDot(number) {
@@ -89,6 +89,7 @@ const app = Vue.createApp({
           this.calculatorResult = this.currentNum;
         }
       }
+      this.focus();
     },
 
     // 選擇運算子
@@ -107,10 +108,11 @@ const app = Vue.createApp({
       this.operator = operator;
       this.perNum = this.currentNum;
       this.currentNum = "";
+      this.focus();
     },
     // 取出總數
     equal() {
-      if (this.calculatorText === ""||this.perNum==='') {
+      if (this.calculatorText === "" || this.perNum === "") {
         console.log("不能重複點＝");
         return;
       } else {
@@ -120,18 +122,27 @@ const app = Vue.createApp({
         this.calculatorText = "";
         switch (this.operator) {
           case "+":
-            this.currentNum =
-              (parseFloat(this.perNum) + parseFloat(this.currentNum)).toFixed(10).replace(/\.0+$|0+$/, '');
+            this.currentNum = (
+              parseFloat(this.perNum) + parseFloat(this.currentNum)
+            )
+              .toFixed(10)
+              .replace(/\.0+$|0+$/, "");
             this.calculatorResult = this.currentNum;
             break;
           case "-":
-            this.currentNum =
-              (parseFloat(this.perNum) - parseFloat(this.currentNum)).toFixed(10).replace(/\.0+$|0+$/, '');
+            this.currentNum = (
+              parseFloat(this.perNum) - parseFloat(this.currentNum)
+            )
+              .toFixed(10)
+              .replace(/\.0+$|0+$/, "");
             this.calculatorResult = this.currentNum;
             break;
           case "×":
-            this.currentNum =
-              (parseFloat(this.perNum) * parseFloat(this.currentNum)).toFixed(10).replace(/\.0+$|0+$/, '');
+            this.currentNum = (
+              parseFloat(this.perNum) * parseFloat(this.currentNum)
+            )
+              .toFixed(10)
+              .replace(/\.0+$|0+$/, "");
             this.calculatorResult = this.currentNum;
             break;
           case "÷":
@@ -140,13 +151,17 @@ const app = Vue.createApp({
             } else if (this.perNum === "0" && this.currentNum === "0") {
               this.currentNum = "NaN";
             } else {
-              this.currentNum =
-              (parseFloat(this.perNum) / parseFloat(this.currentNum)).toFixed(10).replace(/\.0+$|0+$/, '');
+              this.currentNum = (
+                parseFloat(this.perNum) / parseFloat(this.currentNum)
+              )
+                .toFixed(10)
+                .replace(/\.0+$|0+$/, "");
             }
             this.calculatorResult = this.currentNum;
             break;
         }
         this.perNum = "";
+        this.focus();
       }
     },
     // 刪除上一個
@@ -166,6 +181,7 @@ const app = Vue.createApp({
         );
         this.calculatorResult = this.currentNum;
       }
+      this.focus();
     },
     // 刪除全部
     clearAll() {
@@ -174,6 +190,31 @@ const app = Vue.createApp({
       this.perNum = "";
       this.currentNum = "";
       this.operator = "";
+      this.focus();
+    },
+    // 綁定鍵盤按鍵
+    keyDown(e) {
+      console.log(e.key);
+      if (e.key === "1") this.selectNum("1");
+      else if (e.key === "2") this.selectNum("2");
+      else if (e.key === "3") this.selectNum("3");
+      else if (e.key === "4") this.selectNum("4");
+      else if (e.key === "5") this.selectNum("5");
+      else if (e.key === "6") this.selectNum("6");
+      else if (e.key === "7") this.selectNum("7");
+      else if (e.key === "8") this.selectNum("8");
+      else if (e.key === "9") this.selectNum("9");
+      else if (e.key === "0") this.selectZero("0");
+      else if (e.key === ".") this.selectDot(".");
+      else if (e.key === "+") this.selectOperator("+");
+      else if (e.key === "-" || e.key === "_") this.selectOperator("-");
+      else if (e.key === "*") this.selectOperator("×");
+      else if (e.key === "/") this.selectOperator("÷");
+      else if (e.key === "Backspace") this.backSpace();
+      else if (e.key === "Enter") this.equal();
+    },
+    focus() {
+      this.$refs.number.focus();
     },
   },
   watch: {
@@ -211,26 +252,31 @@ const app = Vue.createApp({
     text() {
       const currency = /\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g;
       if (this.perNum === "" && this.currentNum === "") {
-        return this.calculatorText = "";
+        return (this.calculatorText = "");
       } else if (this.perNum !== "") {
-        return this.calculatorText = `${this.perNum
+        return (this.calculatorText = `${this.perNum
           .toString()
           .replace(currency, ",")} ${this.operator} ${this.currentNum
           .toString()
-          .replace(currency, ",")}`;
+          .replace(currency, ",")}`);
       } else {
-        return this.calculatorText = `${this.calculatorResult
+        return (this.calculatorText = `${this.calculatorResult
           .toString()
-          .replace(currency, ",")}`;
+          .replace(currency, ",")}`);
       }
     },
-    // events(){
-    //   return{
-    //     'click':this.selectNum(),
-    //     'keyup':
-    //   }
-    // }
+  },
+  mounted() {
+    this.$refs.number.focus();
   },
 });
 
 app.mount("#app");
+
+
+// 因為不知道該如何綁定在app上，所以使用原生js綁定
+const a = document.querySelector("#app");
+const inputCalculator = document.querySelector(".inputCalculator");
+a.addEventListener("click", () => {
+  inputCalculator.focus();
+});

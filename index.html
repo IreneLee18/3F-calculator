@@ -14,7 +14,7 @@
 
 <body>
   <div id="app">
-    <div class="calculator">
+    <div class="calculator" @click="focus">
       <div class="calculator-screen">
         <span class="calculator-text" ref="calculator-text">{{calculatorText}}</span>
         <span class="calculator-result" :style="{'font-size':`${size}px`}" ref="calculator-result" >
@@ -40,6 +40,7 @@
         </div>
       </div>
     </div>
+    <input class="inputCalculator" ref="number" type="text" @keydown="keyDown($event)" style="opacity: 1;">
   </div>
 
   <script src='https://cdnjs.cloudflare.com/ajax/libs/vue/3.2.34-beta.1/vue.global.min.js'></script>
